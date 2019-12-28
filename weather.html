@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+
+<body>
+ <html>
+ 
+ <script>
+ 
+ var EventEmitter = require("events").EventEmitter;
+var https = require("https");
+var util = require("util");
+var apiKey = "SECRETAPIKEYIOIOIOIOIOIO";
+
+//get data from API
+function Weather(weather) {
+    EventEmitter.call(this);
+    weatherEmitter = this;
+
+    //connect to the dark sky api
+    var request = https.get("https://api.forecast.io/forecast/" + apiKey + weather +".json", function (response) {
+        var body = "";
+
+        if (response.statusCode !== 200) {
+            request.abort();
+            //status code error
+            //weatherEmitter.emit("error", new Error("There was an error retreiving the weathe for that location. Location: " weather + ". (" + https.statusCode + ")"));
+        }
+
+        //read the data
+        response.on('data', function (chunk) {
+            body += chunk;
+            weatherEmitter.emit("data", chunk);
+        });
+
+        response.on('end', function () {
+            if (response.statusCode === 200) {
+                try {
+                    //parse the data
+                    var weather = JSON.parse(body);
+                    console.dir(weather);
+                    weatherEmitter.emit("end", weather);
+
+                } catch (error) {
+                    weatherEmitter.emit("error", error);
+                }
+            }
+        }).on("error", function (error) {
+            weatherEmitter.emit("error", error);
+        });
+    });
+}
+
+util.inherits( Weather, EventEmitter);
+module.exports = Weather;
+router.js
+
+/*Route file*/
+var Weather = require("./weather.js");
+
+/* Handle HTTp route GET / and POST / i.e Home */
+function homeRoute(request, response) {
+    //if url == "/" && GET
+    if (request.url === "/"){
+        //show serach field
+        response.writeHead(200, {'Content-Type': 'text/plain'});
+        //set something to happen on an interval
+        response.write("Header\n");
+
+        response.write("Search\n");
+        response.end("Footer\n");
+    }
+
+    setInterval(function () {
+        console.log('this is before the end ');
+    }, 5000);
+
+    //if the URL == "/" && POST
+        //redirect to /:long,lat
+}
+
+/* Handle HTTP route GET /:longitude,latitude */
+function weatherRoute(request, response) {
+    //if url == "/...."
+    var weather = request.url.replace("/","");
+    if(weather.length > 0){
+        response.writeHead(200, {'Content-Type': 'text/plain'});
+        response.write("Header\n");
+
+        //get json from darksky
+        var weatherProfile = new Weather(weather);
+
+        //on 'end'
+        weatherProfile.on("end", function (weatherJSON) {
+            //show weather info
+            //store the values we need
+            var values = {
+                hourly_summary: weatherJSON.hourly.summary,
+                currently_temperature: weatherJSON.currently.temperature,
+                daily_summary: weatherJSON.daily.summary
+            }
+
+            //simple response
+            response.write(values.weather + " is " + values.hourly_summary + "\n");
+            response.end("Footer\n");
+        });
+        //on 'error'
+        weatherProfile.on("error", function (error) {
+            console.console.error();
+            response.end("Footer\n");
+            //show error
+        });
+    }
+}
+
+/*export routes*/
+module.exports.home = homeRoute;
+module.exports.weather = weatherRoute
+ 
+ 
+ </script>
+ 
+ 
+ </body>
+ </html>
