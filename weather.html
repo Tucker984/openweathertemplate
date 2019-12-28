@@ -3,6 +3,65 @@
 <body>
  <html>
  
+   <div class="container">
+  <!-- Month and Year -->
+  <div class="row">
+    <div class="col-md-6"></div>
+    <div class="col-md-6">
+      <p id="monthNum"></p>
+      <p id="year"></p>
+    </div>
+  </div>
+  <!-- END Month and Year -->
+
+  <!-- Weather Forecast -->
+  <div id="weather">
+    <div class="row">
+      <div id="currentDay" class="col-md-2">
+        <div class="thumbnail current-thumbnail">
+          <div class="row">
+            <div class="col-sm-12">
+              <p class="time text-center"></p>
+              <p class="location text-center"></p>
+              <p class="tempFeel text-center"></p>
+              <p class="humidity text-center"></p>
+            </div>
+          </div>
+          <p class="text-uppercase text-center"><span class="forecastToday">Thu</span> <br /> <span class="forecastNumToday">14</span></p>
+           <p class="icon text-center"></p>
+           <p class="temp text-center"></p>
+        </div>
+      </div>
+      <div class="col-md-2">
+        <div class="thumbnail">
+          <p class="text-uppercase text-center"><span class="forecastDay">Fri</span> <br /> <span class="forecastNum">15</span></p>
+          <p class="icon-upcoming text-center"></p>
+        </div>
+      </div>
+      <div class="col-md-2">
+        <div class="thumbnail">
+          <p class="text-uppercase text-center"><span class="forecastDay">Sat</span> <br /> <span class="forecastNum">16</span></p>
+          <p class="icon-upcoming text-center"></p>
+        </div>
+      </div>
+      <div class="col-md-2">
+        <div class="thumbnail">
+          <p class="text-uppercase text-center"><span class="forecastDay">Sun</span> <br /> <span class="forecastNum">17</span></p>
+          <p class="icon-upcoming text-center"></p>
+        </div>
+      </div>
+      <div class="col-md-2">
+        <div class="thumbnail">
+          <p class="text-uppercase text-center"><span class="forecastDay">Mon</span> <br /> <span class="forecastNum">18</span></p>
+          <p class="icon-upcoming text-center"></p>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- END Weather Forecast -->
+</div>
+  
+  
  <script>
  
 /Get the user's position
